@@ -1,0 +1,601 @@
+.file-preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.file-preview-modal {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  gap: 1rem;
+}
+
+.preview-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.preview-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-size {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.preview-action-btn,
+.preview-close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.preview-action-btn:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.preview-close-btn:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.preview-content {
+  flex: 1;
+  overflow: auto;
+  background-color: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.preview-content::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.preview-content::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.preview-content::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 5px;
+}
+
+.preview-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+.preview-loading,
+.preview-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  color: #0037adff;
+}
+
+.loading-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.preview-error svg {
+  color: #ef4444;
+}
+
+.error-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.error-message {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 400px;
+}
+
+.error-retry {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #0037adff;
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.error-retry:hover {
+  background-color: #002a8cff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.preview-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+}
+
+.preview-pdf-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.preview-pdf {
+  width: 100%;
+  height: 100%;
+  border: none;
+  min-height: 500px;
+}
+
+.preview-text-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 2rem;
+}
+
+.preview-text-content {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+}
+
+.preview-text-content code {
+  font-family: inherit;
+  color: inherit;
+}
+
+.preview-audio-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3rem;
+}
+
+.audio-icon {
+  color: var(--text-tertiary);
+}
+
+.preview-audio {
+  width: 100%;
+  max-width: 600px;
+  outline: none;
+}
+
+.audio-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
+}
+
+.preview-unsupported {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 3rem;
+  text-align: center;
+}
+
+.preview-unsupported svg {
+  color: var(--text-tertiary);
+}
+
+.preview-unsupported h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.preview-unsupported p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 400px;
+}
+
+.download-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #0037adff;
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  margin-top: 0.5rem;
+}
+
+.download-button:hover {
+  background-color: #002a8cff;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.file-preview-overlay.fullscreen-mode {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background-color: rgba(0, 0, 0, 0.98);
+  padding: 0;
+  backdrop-filter: none;
+}
+
+.fullscreen-mode .file-preview-modal {
+  max-width: 100%;
+  max-height: 100vh;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+.fullscreen-mode .preview-content {
+  background-color: #000000;
+}
+
+[data-theme='light'] .fullscreen-mode .preview-content {
+  background-color: #0a0a0a;
+}
+
+.fullscreen-mode .preview-header {
+  background-color: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='light'] .fullscreen-mode .preview-header {
+  background-color: rgba(10, 10, 10, 0.95);
+  color: #ffffff;
+}
+
+[data-theme='light'] .fullscreen-mode .preview-title {
+  color: #ffffff;
+}
+
+[data-theme='light'] .fullscreen-mode .preview-size {
+  color: #a0a0a0;
+}
+
+[data-theme='light'] .fullscreen-mode .preview-action-btn,
+[data-theme='light'] .fullscreen-mode .preview-close-btn {
+  color: #a0a0a0;
+}
+
+[data-theme='light'] .fullscreen-mode .preview-action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.preview-image-fullscreen {
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+  cursor: zoom-in;
+  transition: transform var(--transition-base);
+}
+
+.preview-image-fullscreen:active {
+  cursor: zoom-out;
+  transform: scale(1.5);
+}
+
+.preview-image-container.fullscreen {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-pdf-fullscreen {
+  width: 100%;
+  height: 100vh;
+  border: none;
+  min-height: 100vh;
+}
+
+.preview-pdf-container.fullscreen {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 968px) {
+  .file-preview-overlay {
+    padding: 1.5rem;
+  }
+
+  .preview-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .preview-title {
+    font-size: 1rem;
+  }
+
+  .preview-size {
+    font-size: 0.8125rem;
+  }
+
+  .preview-image-container,
+  .preview-text-container,
+  .preview-audio-container,
+  .preview-unsupported {
+    padding: 1.5rem;
+  }
+
+  .preview-text-content {
+    padding: 1.25rem;
+    font-size: 0.8125rem;
+  }
+
+  .preview-pdf {
+    min-height: 400px;
+  }
+
+  .file-preview-overlay.fullscreen-mode {
+    padding: 0;
+  }
+
+  .fullscreen-mode .preview-header {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .file-preview-overlay {
+    padding: 1rem;
+  }
+
+  .file-preview-modal {
+    max-height: 95vh;
+  }
+
+  .preview-header {
+    padding: 1rem 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .preview-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .preview-title {
+    font-size: 0.9375rem;
+  }
+
+  .preview-size {
+    font-size: 0.75rem;
+  }
+
+  .preview-action-btn,
+  .preview-close-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .preview-image-container,
+  .preview-text-container,
+  .preview-audio-container,
+  .preview-unsupported {
+    padding: 1.25rem;
+  }
+
+  .preview-text-content {
+    padding: 1rem;
+    font-size: 0.75rem;
+  }
+
+  .preview-audio {
+    max-width: 100%;
+  }
+
+  .audio-name {
+    font-size: 0.875rem;
+  }
+
+  .preview-unsupported h3 {
+    font-size: 1.125rem;
+  }
+
+  .preview-unsupported p {
+    font-size: 0.875rem;
+  }
+
+  .download-button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .preview-pdf {
+    min-height: 300px;
+  }
+
+  .file-preview-overlay.fullscreen-mode {
+    padding: 0;
+  }
+
+  .fullscreen-mode .preview-header {
+    padding: 0.875rem 1.25rem;
+  }
+
+  .fullscreen-mode .preview-action-btn,
+  .fullscreen-mode .preview-close-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .file-preview-overlay {
+    padding: 0.75rem;
+  }
+
+  .preview-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .preview-title {
+    font-size: 0.875rem;
+  }
+
+  .preview-action-btn,
+  .preview-close-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .preview-action-btn svg,
+  .preview-close-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .preview-image-container,
+  .preview-text-container,
+  .preview-audio-container,
+  .preview-unsupported {
+    padding: 1rem;
+  }
+
+  .preview-text-content {
+    padding: 0.875rem;
+  }
+
+  .preview-unsupported svg {
+    width: 64px;
+    height: 64px;
+  }
+
+  .download-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  .file-preview-overlay.fullscreen-mode {
+    padding: 0;
+  }
+
+  .fullscreen-mode .preview-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .fullscreen-mode .preview-action-btn,
+  .fullscreen-mode .preview-close-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .fullscreen-mode .preview-action-btn svg,
+  .fullscreen-mode .preview-close-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
